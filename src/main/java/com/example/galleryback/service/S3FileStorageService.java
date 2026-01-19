@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.IOException;
@@ -55,6 +56,14 @@ public class S3FileStorageService implements FileStorageService {
 
     @Override
     public void delete(String imageUrl) {
+        String prefix = "https://" + bucket + ".s3." + region + ".amazonaws.com/";
+        String key = imageUrl.replace(prefix, "");
 
+        DeleteObjectRequest request = DeleteObjectRequest.builder()
+                .bucket(bucket)
+                .key(key)
+                .build();
+
+        s3Client.deleteObject(request);
     }
 }
