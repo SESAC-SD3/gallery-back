@@ -1,6 +1,7 @@
 package com.example.galleryback.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +11,8 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 
 @Configuration
-@ConditionalOnProperty(name = "cloud.aws.s3.bucket")
+//@ConditionalOnProperty(name = "cloud.aws.s3.bucket")
+@ConditionalOnExpression("!'${cloud.aws.s3.bucket:}'.isEmpty()")
 public class S3Config {
 
     @Value("${cloud.aws.credentials.access-key}")

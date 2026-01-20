@@ -2,6 +2,7 @@ package com.example.galleryback.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,8 @@ import java.util.UUID;
 
 @Service
 @Primary
-@ConditionalOnProperty(name = "cloud.aws.s3.bucket")
+//@ConditionalOnProperty(name = "cloud.aws.s3.bucket")
+@ConditionalOnExpression("!'${cloud.aws.s3.bucket:}'.isEmpty()")
 @RequiredArgsConstructor
 public class S3FileStorageService implements FileStorageService {
 
